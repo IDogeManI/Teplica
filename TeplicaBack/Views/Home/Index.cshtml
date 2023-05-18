@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model TeplicaBack.Models.IndexModel
+<!-- Button trigger modal -->
+<button type="button" style="left:1vh; top:85vh" class="btn btn-success position-absolute" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Buy
+</button>
+
+<!-- Modal -->
+<div class="modal fade overflow-auto" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Controllers</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <input type="hidden" value="@ViewBag.BookId" name="BookId" />
+            <table class="table">
+                <tr>
+                    <th>Type</th>
+                    <th>Id</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                @for(int i = 0; i<Model.buyableModels.Count; i++)
+                {
+                        <tr>
+                            <form method="post" action="/Home/Buy">
+                                <td><input type="hidden" name="ControllerType" value=@Model.buyableModels[i].ControllerType />@Model.buyableModels[i].ControllerType</td>
+                                <td><input type="hidden" name="Id" value=@Model.buyableModels[i].Id />@Model.buyableModels[i].Id </td>
+                                <td><input type="hidden" name="Price" value=@Model.buyableModels[i].Price />@Model.buyableModels[i].Price</td>
+                                <td><input type="submit" value="Buy" class="btn btn-success" /> </td>
+                            </form>
+                        </tr>
+                }
+            </table>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade overflow-auto" id="changingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Properties</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="changingModal modal-body" style="text-align:center">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-gradient rounded-3 shadow-lg border border-secondary js-cell leftRectangle">
+    @foreach (var item in Model.userControllers)
+    {
+        @if (item.Group == 0)
+        {
+            <div class="js-card m-4" data-bs-toggle="modal" data-bs-target="#changingModal">
+                <div class="hide">@item.Id</div>
+             
+                @if (item.ControllerType.ToString() == "Temperature")
+                {
+                    <img src="src/Flame.png" draggable="true" class="list__card" />
+                }
+                @if (item.ControllerType.ToString() == "Illumination")
+                {
+                    <img src="src/Sun.png" draggable="true" class="list__card" />
+                }
+                @if (item.ControllerType.ToString() == "Moisture")
+                {
+                    <img src="src/Rain.png" draggable="true" class="list__card" />
+                }
+            </div>
+        }
+    }
+</div>
+<div class="bg-dark bg-gradient rounded-3 shadow-lg border border-secondary rightRectangle">
+    <div class="wrapper">
+        <ul class="list">
+            @for (int i = 1; i <= 4; i++)
+            {
+                <li class="list__cell js-cell">
+                    @foreach (var item in Model.userControllers)
+                    {
+                        @if (item.Group == i)
+                        {
+                            <div class="js-card m-4" data-bs-toggle="modal" data-bs-target="#changingModal">
+                                <div class="hide">@item.Id</div>
+
+                                @if (item.ControllerType.ToString() == "Temperature")
+                                {
+                                    <img src="src/Flame.png" draggable="true" class="list__card" />
+                                }
+                                @if (item.ControllerType.ToString() == "Illumination")
+                                {
+                                    <img src="src/Sun.png" draggable="true" class="list__card" />
+                                }
+                                @if (item.ControllerType.ToString() == "Moisture")
+                                {
+                                    <img src="src/Rain.png" draggable="true" class="list__card" />
+                                }
+                            </div>
+                        }
+                    }
+                    <div class="hide">@i</div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
